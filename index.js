@@ -108,6 +108,7 @@ window.onload = function() {
 function strt() {
     console.log("Game Started")
     consoleText="Game Started"
+    draw();
 
     window.setInterval(draw, 1000);
     updateInterval = window.setInterval(update, 4000);
@@ -115,6 +116,7 @@ function strt() {
 }
 function sotp(){
     console.log("Game Stopping after turn cycle");
+    consoleText="Game Stopping after turn cycle"
     window.clearInterval(updateInterval);
     window.clearInterval(drawInterval);
 }
@@ -129,7 +131,7 @@ var i = 0;
 function myLoop() {
   setTimeout(function() {
 // for (let i = 0; i<=3; i++){
-
+    
 
     // Roll
     roll = Math.floor(Math.random()*11+2);
@@ -217,15 +219,18 @@ function myLoop() {
                 gotaby = 5;
 
                 console.log(p[i].gamertag + " bought " + p[i].loc.name + " (-$" + p[i].loc.price + ")");
+                shiftConsole();
                 consoleTextColor = "black"
-                consoleText += p[i].gamertag + " bought " + p[i].loc.name + " (-$" + p[i].loc.price + ")\n";
+                consoleText = p[i].gamertag + " bought " + p[i].loc.name + " (-$" + p[i].loc.price + ")";
+                
                 
                 
             }
             else if(p[i].bal < p[i].loc.price){
                 console.log(p[i].gamertag + "! you're POOR! You can't buy " + p[i].loc.name)
+                shiftConsole();
                 consoleTextColor = "red";
-                consoleText += p[i].gamertag + "! you're POOR! You can't buy " + p[i].loc.name + `<br>`;
+                consoleText = p[i].gamertag + "! you're POOR! You can't buy " + p[i].loc.name + `<br>`;
             }
             // Auction
         }
@@ -237,6 +242,10 @@ function myLoop() {
             p[p[i].loc.owner].bal = p[p[i].loc.owner].bal + p[i].loc.rent[p[i].loc.houses];
             console.log(p[i].gamertag + " just payed " + p[p[i].loc.owner].gamertag + " $" + 
             p[i].loc.rent[p[i].loc.houses])
+            shiftConsole();
+            consoleTextColor="green";
+            consoleText=p[i].gamertag + " just payed " + p[p[i].loc.owner].gamertag + " $" + 
+            p[i].loc.rent[p[i].loc.houses];
             // dont go bankrupt, sell properties and houses
         }
     // If own a monopoly
@@ -604,8 +613,10 @@ function moveOneSpace(i){
     }
 }
 
-function shiftConsole{
+function shiftConsole(){
     cText4Color = cText3Color;
+    cText3Color = cText2Color;
+    cText2Color = consoleTextColor;
     cText4 = cText3;
     cText3 = cText2;
     cText2 = consoleText;
