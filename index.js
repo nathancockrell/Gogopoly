@@ -52,6 +52,17 @@ let canvas;
 let ctx;
 let roll;
 
+let consoley = 10;
+let consoleText = "";
+let consoleTextColor = "";
+
+let cText2 = "";
+let cText2Color = "";
+let cText3 = "";
+let cText3Color = "";
+let cText4 = "";
+let cText4Color = "";
+
 let gotabx = 0;
 let gotaby = 5;
 let gotabtx = gotabx + 17;
@@ -96,6 +107,7 @@ window.onload = function() {
 
 function strt() {
     console.log("Game Started")
+    consoleText="Game Started"
 
     window.setInterval(draw, 1000);
     updateInterval = window.setInterval(update, 4000);
@@ -205,11 +217,15 @@ function myLoop() {
                 gotaby = 5;
 
                 console.log(p[i].gamertag + " bought " + p[i].loc.name + " (-$" + p[i].loc.price + ")");
+                consoleTextColor = "black"
+                consoleText += p[i].gamertag + " bought " + p[i].loc.name + " (-$" + p[i].loc.price + ")\n";
                 
                 
             }
             else if(p[i].bal < p[i].loc.price){
-                console.log(p[i].gamertag + " you're POOR! You can't buy " + p[i].loc.name)
+                console.log(p[i].gamertag + "! you're POOR! You can't buy " + p[i].loc.name)
+                consoleTextColor = "red";
+                consoleText += p[i].gamertag + "! you're POOR! You can't buy " + p[i].loc.name + `<br>`;
             }
             // Auction
         }
@@ -413,6 +429,19 @@ ctx.fillStyle="#00f7ff";
 ctx.fillRect(1290,403,290,200);
 ctx.fillStyle="#ff0000";
 ctx.fillRect(1290,603,290,200);
+// screen console
+ctx.fillStyle="white"
+ctx.fillRect(20, consoley, 250, 100);
+ctx.font="13px arial";
+ctx.fillStyle=consoleTextColor;
+ctx.fillText(consoleText, 21, consoley+20);
+ctx.fillStyle=cText2Color;
+ctx.fillText(cText2, 21, consoley+40);
+ctx.fillStyle=cText3Color;
+ctx.fillText(cText3, 21, consoley+60);
+ctx.fillStyle=cText4Color;
+ctx.fillText(cText4, 21, consoley+80);
+
 // Properties
     ctx.fillStyle="brown";
         ctx.fillRect(med.bx, med.by, 50, 20);
@@ -572,5 +601,23 @@ function moveOneSpace(i){
     if(p[i].x < 472 && p[i].y > 782.5){
         p[i].bal = p[i].bal + 180;
         console.log(p[i].gamertag + " just earned $180 for passing Go!");
+    }
+}
+
+function shiftConsole{
+    cText4Color = cText3Color;
+    cText4 = cText3;
+    cText3 = cText2;
+    cText2 = consoleText;
+}
+
+function moveConsoleUp() {
+    if (consoley >100){
+    consoley -= 999;
+    }
+}
+function moveConsoleDown() {
+    if (consoley < 9999){
+    consoley += 999;
     }
 }
